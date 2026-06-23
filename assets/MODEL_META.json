@@ -1,0 +1,139 @@
+{
+  "schema_version": "1.0",
+  "created": "2026-06-23",
+  "owner_redacted": "<your-username>",
+  "warning": "⚠️ 以下 OOS 指标未严格验证,模型为活体 inference baseline。引用前请先做 OOS backtest。",
+  "models": [
+    {
+      "model_filename": "qlib_model_alpha162.pkl",
+      "framework": "qlib",
+      "framework_version": "qlib 0.9.x with lightgbm 3.3.5",
+      "training_data_snapshot": "2026-05-26",
+      "training_data_source": "baostock_cn (qlib cn_data 1d)",
+      "feature_set": "Alpha162 (Qlib alpha158 + 4 自研因子:反转/回撤/流动性)",
+      "feature_count": 162,
+      "oos_metrics": {
+        "ic": "未跑 OOS (unknown)",
+        "rank_ic": "未跑 OOS (unknown)",
+        "annual_return": "未跑 OOS (unknown)",
+        "sharpe": "未跑 OOS (unknown)",
+        "max_drawdown": "未跑 OOS (unknown)",
+        "test_period": "未严格划分;inference 截止 2026-05-26"
+      },
+      "survivorship_bias_estimate": {
+        "percent": 3.5,
+        "method": "CSI300 历史退市率 0.7%/yr × 5yr train window",
+        "source": "中证指数公司公开数据 (2019-2024); baostock 包含 ST 但不含已退市股",
+        "verified": false
+      },
+      "lookahead_check": {
+        "passed": false,
+        "method": "未跑过严格 OOS 三段切分 (train/valid/test)",
+        "oos_split_date": "未设定"
+      },
+      "dependencies": {
+        "lightgbm": "3.3.5",
+        "qlib": "0.9.x",
+        "numpy": "1.24.x",
+        "pandas": "2.x"
+      },
+      "reproduce_command": "python3 paper_trader/qlib_train.py --features alpha162 --snapshot 2026-05-26",
+      "model_sha256": "de405fe9e92965728fe121bc62c6ffebecb018971e2423cc7b107b661175fef7",
+      "size_bytes": 808694,
+      "license": "MIT (代码) + baostock data license (产物)",
+      "notes": "活体 inference 模型,警觉性:baseline 而非已验证 alpha"
+    },
+    {
+      "model_filename": "qlib_model_alpha158.pkl",
+      "framework": "qlib",
+      "framework_version": "qlib 0.9.x with lightgbm 3.3.5",
+      "training_data_snapshot": "2026-05-26",
+      "training_data_source": "baostock_cn (qlib cn_data 1d)",
+      "feature_set": "Alpha158 (Qlib 标准)",
+      "feature_count": 158,
+      "oos_metrics": {
+        "ic": "未跑 OOS (unknown)",
+        "rank_ic": "未跑 OOS (unknown)",
+        "annual_return": "未跑 OOS (unknown)",
+        "sharpe": "未跑 OOS (unknown)",
+        "max_drawdown": "未跑 OOS (unknown)",
+        "test_period": "未严格划分"
+      },
+      "survivorship_bias_estimate": {
+        "percent": 3.5,
+        "method": "CSI300 历史退市率 0.7%/yr × 5yr",
+        "source": "中证指数公司公开数据",
+        "verified": false
+      },
+      "lookahead_check": {
+        "passed": false,
+        "method": "未跑过严格 OOS 三段切分",
+        "oos_split_date": "未设定"
+      },
+      "dependencies": {
+        "lightgbm": "3.3.5",
+        "qlib": "0.9.x",
+        "numpy": "1.24.x",
+        "pandas": "2.x"
+      },
+      "reproduce_command": "python3 paper_trader/qlib_train.py --features alpha158 --snapshot 2026-05-26",
+      "model_sha256": "7adecf4a806ad1818eba90c5b3ed311422b7b0a62984667ad843418f28b7862f",
+      "size_bytes": 837149,
+      "license": "MIT (代码) + baostock data license",
+      "notes": "alpha158 baseline,与 alpha162 对照用"
+    },
+    {
+      "model_filename": "qlib_model_alpha162_backup.pkl",
+      "framework": "qlib",
+      "framework_version": "qlib 0.9.x with lightgbm 3.3.5",
+      "training_data_snapshot": "cn_data_new (旧 cn_data 升级前)",
+      "training_data_source": "baostock_cn (qlib cn_data 1d, 旧版本)",
+      "feature_set": "Alpha162 (旧 cn_data 训练)",
+      "feature_count": 162,
+      "oos_metrics": {
+        "status": "backup only, 未用于 inference"
+      },
+      "survivorship_bias_estimate": {
+        "percent": 3.5,
+        "method": "CSI300 历史退市率",
+        "source": "中证指数公司",
+        "verified": false
+      },
+      "lookahead_check": {
+        "passed": false,
+        "method": "未做 OOS",
+        "oos_split_date": "未设定"
+      },
+      "dependencies": {
+        "lightgbm": "3.3.5",
+        "qlib": "0.9.x"
+      },
+      "reproduce_command": "N/A (历史备份,仅供回溯)",
+      "model_sha256": "3dde22f169997e4427bb26b13d186bbc38a4a0df7993ce3a9553c8aec8e1ca51",
+      "size_bytes": 967030,
+      "license": "MIT + baostock data license",
+      "notes": "⚠️ 这是 .bak.cn_data_new 文件 — cn_data 升级前的快照,不应作为新 inference 模型使用"
+    }
+  ],
+  "selection_history": [
+    {
+      "filename": "qlib_picks_20260526.json",
+      "snapshot_date": "2026-05-26",
+      "model_used": "qlib_model_alpha162.pkl",
+      "market": "CSI300",
+      "top_n": null,
+      "format": "json (key=picks, value=list of {symbol, score})"
+    },
+    {
+      "filename": "qlib_picks_20260604.json",
+      "snapshot_date": "2026-06-04",
+      "model_used": "qlib_model_alpha162.pkl",
+      "market": "CSI300",
+      "top_n": null,
+      "format": "json"
+    }
+  ],
+  "cross_framework_warning": "❌ qlib 与 vnpy.alpha 框架产出的 .pkl 不能互用。详见 references/model-asset-bundling.md §3",
+  "quant_dashboard_data_exclusion": "quant_dashboard/data/ 与 logs/ 不进仓 — 含真实持仓/选股结果/cron 时间戳",
+  "quant_trade_venv_exclusion": "quantTrade/.venv/ (367MB) 不进仓 — 用 pyproject.toml + `pip install -e .` 重建"
+}

@@ -151,3 +151,115 @@ $HOME/Projects/$QUANT_KB_NAME/Agent/quant/dailyRepo/YYYY-MM-DD.md
 ---
 
 ✅ 至此,你的量化日报系统已经跑通。下一步建议:把日报接入 hermes cron,享受"每天 16:00 自动看昨日模拟结果"的便利。
+
+---
+
+## 11. 仓库资产清单(LFS + 警觉性 metadata)
+
+仓库除了"代码 + 文档",还打包了三类**真实运行产物**,放在 `assets/` 目录下,全部走 **Git LFS**。
+
+### 11.1 资产结构
+
+```
+assets/
+├── MODEL_META.json                ← ⚠️ 模型警觉性 metadata(必读)
+├── models/
+│   ├── qlib_model_alpha162.pkl    ← 主模型(790KB,live inference 用)
+│   ├── qlib_model_alpha158.pkl    ← baseline 对照(817KB)
+│   └── qlib_model_alpha162_backup.pkl ← cn_data 升级前备份(944KB,仅追溯)
+└── selection_history/
+    ├── qlib_picks_20260526.json   ← 实盘选股快照(5 只)
+    └── qlib_picks_20260604.json   ← 实盘选股快照(10 只 + timing signal)
+```
+
+**配套子项目**(已在仓库根,非 `assets/`):
+
+```
+quant_dashboard/                  ← A 股指标看板(代码 + web,数据/日志排除)
+quant_trade/                      ← 通用量化交易骨架(AAPL 模拟数据,venv 排除)
+```
+
+### 11.2 ⚠️ 警觉性 metadata(必读)
+
+`assets/MODEL_META.json` 记录了**每个模型的诚实标注**,核心几条:
+
+| 字段 | 主模型(qlib_model_alpha162.pkl) | 说明 |
+|---|---|---|
+| 训练数据截止 | 2026-05-26 | 截止此后模型无新训练 |
+| 训练数据源 | baostock_cn (qlib cn_data 1d) | baostock 包含 ST 但不含已退市股 |
+| 特征集 | Alpha162(Alpha158 + 4 自研反转/回撤/流动性因子)| 162 维 |
+| **Survivorship bias 估计** | **~3.5%**(CSI300 历史退市率 0.7%/yr × 5yr) | ⚠ 未严格验证 |
+| **Look-ahead check** | **❌ 未通过**(未跑严格 OOS 三段切分) | ⚠ 这是最大隐患 |
+| OOS 指标(IC/Sharpe/MaxDD) | **全部 unknown** | 未做 OOS 回测 |
+| 模型 sha256 | 写入 MODEL_META | 校验用 |
+
+**引用这些模型做研究前,请先**:
+1. 读 `assets/MODEL_META.json` 完整内容
+2. 跑严格的 OOS backtest(train/valid/test 三段)
+3. 重新评估 survivorship bias / lookahead bias
+
+### 11.3 选择历史(selection_history)
+
+`assets/selection_history/*.json` 是**真实 cron 跑出来的实盘选股信号**(2026-05-26 / 2026-06-04 各一份)。这些**不是回测业绩**,只是当时模型的"输出快照"。
+
+**禁止**:
+- 直接拿来做"模型历史业绩"展示(无 OOS,误导)
+- 当作"未来可重复选股依据"(模型已进化,score 无可比性)
+
+**允许**:
+- 研究模型在特定日期对哪些股票有高 score
+- 对比 alpha162 vs alpha158 在同一日的选股差异
+- 检查 timing_signal 与大盘位置的关系
+
+### 11.4 子项目隐私隔离
+
+```bash
+# 这些目录已显式排除,clone 下来是空的:
+quant_dashboard/data/             # 真实持仓/选股明细/SQLite
+quant_dashboard/logs/             # cron 时间戳/扫描进度
+quantTrade/.venv/                 # 367MB,Python 3.14 venv
+quantTrade/data/cache/            # 临时 parquet(需要 pyarrow 才可读)
+```
+
+**子项目怎么跑**:
+```bash
+# quant_dashboard(在原 ~/Projects/quant-dashboard 跑,不要在本仓库跑)
+cd ~/Projects/quant-dashboard
+python3 scripts/init_db.py    # 创建 SQLite(空 db)
+python3 scripts/fetch_indicators.py  # 拉当天数据
+./start.sh                    # 8765 端口,自动开浏览器
+
+# quantTrade
+cd ~/Projects/quantTrade
+python -m venv .venv
+source .venv/bin/activate
+pip install -e .[dev]
+python -m quanttrade.demo_pipeline   # 跑通端到端示例
+```
+
+### 11.5 LFS 校验
+
+```bash
+# 检查 LFS 是否正常工作
+git lfs ls-files
+# 应看到:
+#   assets/models/qlib_model_alpha162.pkl
+#   assets/models/qlib_model_alpha158.pkl
+#   assets/models/qlib_model_alpha162_backup.pkl
+#   assets/selection_history/qlib_picks_*.json
+
+# 校验模型 sha256
+sha256sum assets/models/*.pkl
+# 应与 MODEL_META.json 中 model_sha256 字段一致
+```
+
+如果 `git lfs ls-files` 为空,说明 LFS 没装或没初始化:
+```bash
+brew install git-lfs       # macOS
+git lfs install            # 仓库级初始化
+git lfs pull               # 拉取 LFS 对象(若第一次 clone 没自动拉)
+```
+
+---
+
+✅ 至此,你已完整理解本仓库的资产边界 + 警觉性标注。引用模型/选股前务必读完 §11.2。

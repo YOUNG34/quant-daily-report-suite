@@ -44,3 +44,42 @@ paper_trader/.stock_name_cache.json
 
 # 但 samples/ 目录里的 portfolio.json 历史快照应该保留
 !samples/**/portfolio.json
+
+# ============================================================
+# 2026-06-23 增量 — quant-dashboard / quantTrade 资产隔离
+# ============================================================
+
+# quant-dashboard:真实持仓/选股结果/时间戳日志 (绝对不进仓)
+quant_dashboard/data/
+quant_dashboard/logs/
+quant_dashboard/*.db
+quant_dashboard/*.sqlite
+quant_dashboard/scan_progress.txt
+
+# quant-dashboard runtime 临时文件
+quant_dashboard/web/.cache/
+quant_dashboard/web/static/cache/
+
+# quantTrade:venv/cache/test artifacts (绝对不进仓)
+quant_trade/.venv/
+quant_trade/.ruff_cache/
+quant_trade/.pytest_cache/
+quant_trade/__pycache__/
+quant_trade/**/__pycache__/
+quant_trade/data/cache/
+quant_trade/.coverage
+quant_trade/htmlcov/
+quant_trade/.tox/
+
+# assets/data cache 也是临时输出,不应入仓
+assets/data/*/cache/
+assets/data/*/.tmp/
+
+# LFS 不应误吞训练数据(以防大 .pkl/.parquet 漏网,显式排除根目录训练快照)
+# 仅 assets/models/ 和 assets/selection_history/ 走 LFS,其他位置 .pkl/.parquet 全部排除
+*.pkl
+!assets/models/*.pkl
+!assets/selection_history/*.pkl
+!assets/data/*/artifacts/*.pkl
+*.parquet
+!assets/models/*.parquet

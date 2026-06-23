@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>量化指标看板</title>
+<link rel="stylesheet" href="/style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+</head>
+<body>
+<div class="container">
+  <!-- 顶部状态条 -->
+  <header>
+    <div class="header-left">
+      <h1>📊 量化指标看板</h1>
+      <span class="subtitle" id="updated-at"></span>
+    </div>
+    <div class="header-right" id="market-bar">
+      <!-- 大盘环境 -->
+    </div>
+  </header>
+
+  <!-- 主面板：左侧持仓表，右侧详情 -->
+  <div class="main-grid">
+    <!-- ── 左：股票列表 ── -->
+    <div class="panel" id="stocks-panel">
+      <div class="panel-header">
+        <h2>持仓 / 关注</h2>
+        <span id="stocks-count" class="badge"></span>
+      </div>
+
+      <div class="filter-bar">
+        <select id="sort-by">
+          <option value="score_total">综合分</option>
+          <option value="score_trend">趋势</option>
+          <option value="score_momentum">动量</option>
+          <option value="score_volume">量能</option>
+          <option value="score_valuation">估值</option>
+          <option value="pct_chg">涨跌幅</option>
+        </select>
+        <label><input type="checkbox" id="filter-holding" checked> 仅持仓</label>
+      </div>
+
+      <table id="stocks-table">
+        <thead>
+          <tr>
+            <th>代码</th>
+            <th>名称</th>
+            <th>价格</th>
+            <th>涨跌</th>
+            <th>趋势</th>
+            <th>动量</th>
+            <th>量能</th>
+            <th>估值</th>
+            <th>总分</th>
+            <th>判定</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <!-- ── 右：详情 ── -->
+    <div class="panel" id="detail-panel">
+      <div class="panel-header">
+        <h2 id="detail-title">📌 选择左侧股票查看详情</h2>
+      </div>
+
+      <div id="detail-content" class="hidden">
+        <!-- 雷达图 + 关键指标 -->
+        <div class="detail-row">
+          <div class="chart-box">
+            <canvas id="radar-chart"></canvas>
+          </div>
+          <div id="key-metrics" class="metrics-grid"></div>
+        </div>
+
+        <!-- K线 + MA -->
+        <div class="chart-box-large">
+          <h3>价格走势（60日）</h3>
+          <canvas id="price-chart"></canvas>
+        </div>
+
+        <!-- 总分历史 -->
+        <div class="chart-box-large">
+          <h3>综合分历史</h3>
+          <canvas id="score-chart"></canvas>
+        </div>
+
+        <!-- 全指标表 -->
+        <div class="chart-box-large">
+          <h3>所有指标</h3>
+          <div id="full-indicators"></div>
+        </div>
+      </div>
+
+      <div id="detail-placeholder" class="placeholder">
+        <p>👈 点击左侧任意股票查看完整指标</p>
+        <p class="hint">所有数据由 baostock 获取并存储到本地 SQLite (data/indicators.db)</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 底部说明 -->
+  <footer>
+    <p>📁 数据库: <code>~/Projects/quant-dashboard/data/indicators.db</code> &nbsp;|&nbsp;
+       更新: <code>python3 scripts/fetch_indicators.py</code> &nbsp;|&nbsp;
+       <span id="fetch-info"></span></p>
+  </footer>
+</div>
+
+<script src="/app.js"></script>
+</body>
+</html>

@@ -31,6 +31,29 @@ quant-daily-report-suite/
 │   ├── portfolio.json              ← 当前持仓(敏感,gitignore)
 │   ├── history.csv                 ← 历史净值(敏感,gitignore)
 │   └── sh000300_kline.pkl          ← 31K K 线缓存
+
+├── assets/                         ← 模型 + 选股历史 + 警觉性 metadata(LFS,⚠ 必读 MODEL_META.json)
+│   ├── MODEL_META.json             ← ⚠ 模型 OOS 警觉性 metadata
+│   ├── models/                     ← 主模型 + 备份(LFS)
+│   │   ├── qlib_model_alpha162.pkl
+│   │   ├── qlib_model_alpha158.pkl
+│   │   └── qlib_model_alpha162_backup.pkl
+│   └── selection_history/          ← 实盘选股快照(LFS,非回测业绩)
+│       ├── qlib_picks_20260526.json
+│       └── qlib_picks_20260604.json
+
+├── quant_dashboard/                ← A 股指标看板(代码 + web,数据/日志排除)
+│   ├── start.sh                    ← 启动服务(8765)
+│   ├── scripts/                    ← 7 个 .py 脚本(已脱敏)
+│   └── web/                        ← HTML/JS 静态资源
+│   # data/(持仓/选股) + logs/(时间戳) 已 .gitignore
+│
+├── quant_trade/                    ← 通用量化交易骨架(AAPL 模拟数据)
+│   ├── src/quanttrade/             ← 7 个模块(数据/回测/风控/执行/清算)
+│   ├── data/sample_ticks.csv       ← AAPL tick 样本(2.1 万行)
+│   ├── artifacts/factors.full.csv  ← AAPL 因子结果(7200 行)
+│   └── Makefile + pyproject.toml
+│   # .venv/(367MB) + data/cache/ 已 .gitignore
 │
 ├── quant_core/                     ← 共享工具库(9 文件,68K)
 │   ├── paths.py                    ← 统一路径常量,环境变量覆盖

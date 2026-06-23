@@ -1,0 +1,18 @@
+# Git LFS — 大模型 + 选股历史 + 数据快照
+# 参考 references/model-asset-bundling.md §1 决策矩阵
+
+# 主模型与备份(qlib .pkl,790KB ~ 944KB,LFS)
+assets/models/*.pkl filter=lfs diff=lfs merge=lfs -text
+
+# 历史选股 JSON(1-10KB,小但未来可能增长,LFS)
+assets/selection_history/*.json filter=lfs diff=lfs merge=lfs -text
+
+# 回测特征矩阵(features.pkl,5.2MB,LFS)
+assets/data/*/artifacts/features_*.pkl filter=lfs diff=lfs merge=lfs -text
+
+# 训练样本(.parquet,可重建,但 LFS 加快首次使用)
+assets/data/**/*.parquet filter=lfs diff=lfs merge=lfs -text
+
+# 兜底:根目录所有 .pkl/.parquet 走 LFS(防漏)
+*.pkl filter=lfs diff=lfs merge=lfs -text
+*.parquet filter=lfs diff=lfs merge=lfs -text

@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# 备份文件
+*.bak
+*.old
+*.orig
+*.swp
+*~
+
+# 系统
+.DS_Store
+Thumbs.db
+
+# 虚拟环境
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# 本地配置(用户必改,不应进仓库)
+.env
+.env.local
+*.local.yaml
+
+# 日志与临时
+*.log
+*.tmp
+*.bak.json
+
+# paper_trader 敏感数据(用户真实持仓,clone 后重置)
+paper_trader/portfolio.json
+paper_trader/history.csv
+paper_trader/.stock_name_cache.json
+
+# 但 samples/ 目录里的 portfolio.json 历史快照应该保留
+!samples/**/portfolio.json

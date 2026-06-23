@@ -1,0 +1,121 @@
+# ============================================================
+# Quant 系统统一配置
+# 位置: <your-username>/Projects/quant_config.yaml  ← 必改!
+#       复制为 $HOME/Projects/quant_config.yaml 后改里面的 <your-username>
+#       ($HOME 在 macOS 通常是 /Users/<你的用户名>)
+# 加载: from quant_core.config import get_config
+# 改本文件 = 改全系统的参数基线
+# ============================================================
+
+# ── 项目根路径 ──────────────────────────
+paths:
+  data_root: "<your-username>/.hermes/profiles/quant/home/.qlib/qlib_data/baostock_cn"
+  pipeline_output: "<your-username>/Projects/pipeline_output"
+  paper_trader_dir: "<your-username>/Projects/paper_trader"
+  alpha_gpt_dir: "<your-username>/Projects/AlphaGPT"
+  daily_repo: "<your-username>/Projects/<your-knowledge-base>/Agent/quant/dailyRepo"
+  logs_dir: "<your-username>/Projects/quant_logs"
+  snapshots_dir: "<your-username>/Projects/quant_snapshots"
+
+# ── A 股选股流水线 ────────────────────
+pipeline:
+  model_path: "<your-username>/Projects/pipeline_output/qlib_model.pkl"
+  instruments: "csi300"
+  fit_start: "2023-10-01"
+  fit_end: "2026-05-25"
+  feature_lookback_days: 180     # 计算因子时往前取的天数
+  top_n: 5                       # 最终入选数
+  top_buffer: 3                  # 流动性过滤 buffer 倍数
+
+# ── 大盘择时 (sh000300) ──────────────
+timing:
+  enabled: true
+  ma_window: 60
+  full_threshold: 1.00           # ratio >= 此值 → 满仓
+  half_threshold: 0.95           # ratio >= 此值 → 半仓
+  # ratio < half_threshold → 空仓
+  kline_cache: "<your-username>/Projects/paper_trader/sh000300_kline.pkl"
+  kline_start: "2020-01-01"
+
+# ── 风险控制 ──────────────────────────
+risk:
+  stop_loss_pct: 0.08            # 从 HWM 回撤 -8% → 强制清仓
+  min_turnover_pct: 0.30         # rebalance 换手 < 30% → 跳过
+  liquidity_floor: 1.0e8         # 20 日均成交额下限（元）
+  pe_max: 100                    # PE 过滤上限
+  pb_max: 15                     # PB 过滤上限
+  # ── Step 9 暴露上限 ──
+  single_stock_cap_pct: 0.10     # 单只股票 ≤ 10% 组合净值
+  industry_cap_pct: 0.30         # 单一行业 ≤ 30% 组合净值
+  # ── Step 13 ATR 动态止损 ──
+  atr_period: 14                 # ATR 计算窗口（默认 14 日）
+  atr_k: 2.5                     # ATR 倍数（推荐 2.0~3.0）
+  atr_fallback_pct: 0.08         # 冷启动（持仓 < 14 日）固定 % 兜底
+  # 涨跌停过滤：±10% (主板) / ±20% (创业板/科创板/北交所)
+  limit_up_pct_main: 0.10
+  limit_up_pct_gem: 0.20
+
+# === 数据源 ===
+data_source:
+  max_retries: 3               # 单次请求最大重试次数
+  retry_base_delay_sec: 1.0    # 重试基础间隔（秒），实际按 2^attempt 指数退避
+  timeout_sec: 10              # curl --max-time
+  batch_size: 50               # 单次请求最大股票数
+  user_agent: "Mozilla/5.0"    # curl UA
+  fail_threshold: 2            # 连续失败 N 次标记 portfolio['last_data_error']
+
+# ── 纸交 A 股 ──────────────────────────
+paper_a:
+  init_capital: 1_000_000
+  weight_strategy: "equal"       # equal / score_weighted
+  lot_size: 100                  # A 股最小 1 手 = 100 股
+  rebalance_day_of_month: 1      # 每月 1 号
+  rebalance_hour: 15             # 15:30
+  skip_holiday_to_next: true     # 节假日顺延到下一交易日
+  # ── 交易成本 (Step 10) ──────────────
+  commission_rate: 0.00025       # 万 2.5 佣金，双边
+  stamp_tax_rate: 0.001          # 千 1 印花税，仅卖出
+  min_commission: 5.0            # 最低 5 元/笔
+
+# ── 纸交 ETF ───────────────────────────
+paper_etf:
+  init_capital: 1_000_000
+  lot_size: 100
+  rebalance_day_of_month: 1
+  rebalance_hour: 9              # 09:25
+
+# ── 日报 ──────────────────────────────
+report:
+  enabled: true
+  output_dir: "<your-username>/Projects/<your-knowledge-base>/Agent/quant/dailyRepo"
+  format: "markdown"
+  include_history_rows: 10
+  disclaimer: "⚠️ 以上为模拟结果，不构成投资建议"
+
+# ── 日志 ──────────────────────────────
+logging:
+  level: "INFO"                  # DEBUG / INFO / WARNING / ERROR
+  rotation: "20 MB"
+  retention: "30 days"
+  console: true                  # 同时输出到 stdout
+  file: true                     # 同时输出到文件
+
+# ── 告警阈值 ──────────────────────────
+alerts:
+  nav_daily_drop_pct: 0.03       # 单日跌幅 > 3% → 告警
+  cron_missing_jobs: true        # 缺失当日产物 → 告警
+  data_fetch_failure_max: 2      # 连续失败 N 次 → 告警
+  model_oos_min_sharpe: 1.5      # OOS Sharpe < 1.5 → 告警
+
+# ── cron 时间表（监控用）───────────
+cron_schedule:
+  pipeline_daily: "15 15 * * 1-5"        # 选股
+  paper_a_nav_daily: "30 15 * * 1-5"     # A 股净值
+  paper_etf_nav_daily: "30 15 * * 1-5"   # ETF 净值
+  daily_report: "0 16 * * 1-5"           # 日报
+  rebalance_monthly: "30 15 1 * *"       # 月度 rebalance
+  etf_signal_monthly: "25 9 1 * *"       # ETF 信号
+  etf_backtest_monthly: "35 9 1 * *"     # ETF 回测
+
+# ── schema 版本（向前兼容用）────
+schema_version: 2

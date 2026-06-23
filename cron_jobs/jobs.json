@@ -1,0 +1,676 @@
+{
+  "jobs": [
+    {
+      "id": "0ededed120d1",
+      "name": "纸交每日净值更新",
+      "prompt": "运行纸交模拟器更新组合净值：\n1. cd /Users/<user>/Projects/paper_trader\n2. 执行 python3 trader.py\n3. 输出简洁的绩效摘要：当前净值、累计收益率（%）、各持仓盈亏汇总\n4. 如果返回 ERROR 或拉取行情失败，汇报失败原因\n5. 报告结尾标注「⚠ 以上为模拟结果，不构成投资建议」",
+      "skills": [],
+      "skill": null,
+      "model": null,
+      "provider": null,
+      "base_url": null,
+      "script": null,
+      "no_agent": false,
+      "context_from": null,
+      "schedule": {
+        "kind": "cron",
+        "expr": "30 15 * * 1-5",
+        "display": "30 15 * * 1-5"
+      },
+      "schedule_display": "30 15 * * 1-5",
+      "repeat": {
+        "times": null,
+        "completed": 11
+      },
+      "enabled": true,
+      "state": "scheduled",
+      "paused_at": null,
+      "paused_reason": null,
+      "created_at": "2026-05-26T17:04:11.964377+08:00",
+      "next_run_at": "2026-06-23T15:30:00+08:00",
+      "last_run_at": "2026-06-22T15:31:52.347547+08:00",
+      "last_status": "ok",
+      "last_error": null,
+      "last_delivery_error": null,
+      "deliver": "local",
+      "origin": null,
+      "enabled_toolsets": null,
+      "workdir": "/Users/<user>/Projects/paper_trader"
+    },
+    {
+      "id": "46f41b0ecf2a",
+      "name": "每日量化选股流水线",
+      "prompt": "执行量化选股流水线：\n1. cd /Users/<user>/Projects && source /Users/<user>/Projects/quant-env/bin/activate && PYTHONUNBUFFERED=1 python3 quant_pipeline.py --top 10 2>&1\n2. 将选股结果和日报路径发送给用户\n3. 简要总结：入选股票、评分、AI分析评级",
+      "skills": [
+        "quant-pipeline"
+      ],
+      "skill": "quant-pipeline",
+      "model": null,
+      "provider": null,
+      "base_url": null,
+      "script": null,
+      "no_agent": false,
+      "context_from": null,
+      "schedule": {
+        "kind": "cron",
+        "expr": "15 15 * * 1-5",
+        "display": "15 15 * * 1-5"
+      },
+      "schedule_display": "15 15 * * 1-5",
+      "repeat": {
+        "times": null,
+        "completed": 11
+      },
+      "enabled": true,
+      "state": "scheduled",
+      "paused_at": null,
+      "paused_reason": null,
+      "created_at": "2026-05-26T23:12:46.583232+08:00",
+      "next_run_at": "2026-06-23T15:15:00+08:00",
+      "last_run_at": "2026-06-22T15:29:54.071703+08:00",
+      "last_status": "ok",
+      "last_error": null,
+      "last_delivery_error": null,
+      "deliver": "local",
+      "origin": null,
+      "enabled_toolsets": [
+        "terminal",
+        "file",
+        "web"
+      ],
+      "workdir": "/Users/<user>/Projects"
+    },
+    {
+      "id": "d0a808e7513a",
+      "name": "AlphaGPT ETF 月度信号生成",
+      "prompt": "在 /Users/<user>/Projects/AlphaGPT 目录下运行 python3 deploy_etf_signal.py，生成最新的 ETF 选股信号。不要做其他操作，只运行这个命令。",
+      "skills": [],
+      "skill": null,
+      "model": null,
+      "provider": null,
+      "base_url": null,
+      "script": null,
+      "no_agent": false,
+      "context_from": null,
+      "schedule": {
+        "kind": "cron",
+        "expr": "25 9 1 * *",
+        "display": "25 9 1 * *"
+      },
+      "schedule_display": "25 9 1 * *",
+      "repeat": {
+        "times": null,
+        "completed": 0
+      },
+      "enabled": true,
+      "state": "scheduled",
+      "paused_at": null,
+      "paused_reason": null,
+      "created_at": "2026-05-28T14:29:13.614283+08:00",
+      "next_run_at": "2026-07-01T09:25:00+08:00",
+      "last_run_at": null,
+      "last_status": null,
+      "last_error": null,
+      "last_delivery_error": null,
+      "deliver": "local",
+      "origin": null,
+      "enabled_toolsets": [
+        "terminal"
+      ],
+      "workdir": "/Users/<user>/Projects/AlphaGPT",
+      "profile": null
+    },
+    {
+      "id": "c5174270002c",
+      "name": "AlphaGPT ETF 纸交净值更新",
+      "prompt": "在 /Users/<user>/Projects/AlphaGPT 目录下运行 python3 paper_trader_etf.py，更新 ETF 纸交组合净值。不要做其他操作，只运行这个命令。",
+      "skills": [],
+      "skill": null,
+      "model": null,
+      "provider": null,
+      "base_url": null,
+      "script": null,
+      "no_agent": false,
+      "context_from": null,
+      "schedule": {
+        "kind": "cron",
+        "expr": "30 15 * * 1-5",
+        "display": "30 15 * * 1-5"
+      },
+      "schedule_display": "30 15 * * 1-5",
+      "repeat": {
+        "times": null,
+        "completed": 11
+      },
+      "enabled": true,
+      "state": "scheduled",
+      "paused_at": null,
+      "paused_reason": null,
+      "created_at": "2026-05-28T14:29:18.799051+08:00",
+      "next_run_at": "2026-06-23T15:30:00+08:00",
+      "last_run_at": "2026-06-22T15:32:00.536536+08:00",
+      "last_status": "ok",
+      "last_error": null,
+      "last_delivery_error": null,
+      "deliver": "local",
+      "origin": null,
+      "enabled_toolsets": [
+        "terminal"
+      ],
+      "workdir": "/Users/<user>/Projects/AlphaGPT",
+      "profile": null
+    },
+    {
+      "id": "15ec975bc6ef",
+      "name": "etf-monthly-backtest",
+      "prompt": "运行 Qlib ETF 回测：\n1. cd /Users/<user>/Projects/AlphaGPT\n2. source /Users/<user>/Projects/quant-env/bin/activate\n3. python3 qlib_etf_bt_prod.py --days 540\n4. 将回测摘要（metrics + formula）作为最终回复汇报给用户",
+      "skills": [],
+      "skill": null,
+      "model": null,
+      "provider": null,
+      "base_url": null,
+      "script": null,
+      "no_agent": false,
+      "context_from": null,
+      "schedule": {
+        "kind": "cron",
+        "expr": "35 9 1 * *",
+        "display": "35 9 1 * *"
+      },
+      "schedule_display": "35 9 1 * *",
+      "repeat": {
+        "times": null,
+        "completed": 0
+      },
+      "enabled": true,
+      "state": "scheduled",
+      "paused_at": null,
+      "paused_reason": null,
+      "created_at": "2026-05-28T17:05:31.539729+08:00",
+      "next_run_at": "2026-07-01T09:35:00+08:00",
+      "last_run_at": null,
+      "last_status": null,
+      "last_error": null,
+      "last_delivery_error": null,
+      "deliver": "origin",
+      "origin": null,
+      "enabled_toolsets": null,
+      "workdir": null,
+      "profile": null
+    },
+    {
+      "id": "2f46a6b6397e",
+      "name": "akshare-progress-report",
+      "prompt": "ignored - no_agent mode",
+      "skills": [],
+      "skill": null,
+      "model": null,
+      "provider": null,
+      "base_url": null,
+      "script": "akshare_progress.sh",
+      "no_agent": true,
+      "context_from": null,
+      "schedule": {
+        "kind": "cron",
+        "expr": "*/30 * * * *",
+        "display": "*/30 * * * *"
+      },
+      "schedule_display": "*/30 * * * *",
+      "repeat": {
+        "times": null,
+        "completed": 0
+      },
+      "enabled": false,
+      "state": "paused",
+      "paused_at": "2026-06-05T15:21:24.654595+08:00",
+      "paused_reason": null,
+      "created_at": "2026-06-04T10:59:51.012564+08:00",
+      "next_run_at": "2026-06-04T11:00:00+08:00",
+      "last_run_at": null,
+      "last_status": null,
+      "last_error": null,
+      "last_delivery_error": null,
+      "deliver": "origin",
+      "origin": null,
+      "enabled_toolsets": null,
+      "workdir": null,
+      "profile": null
+    },
+    {
+      "id": "1ceb09f36c8b",
+      "name": "paper_trader_rebalance_monthly",
+      "prompt": "你是 paper_trader rebalance 自动化任务。在 quant_pipeline 跑完选股后，按月重建持仓。\n\n执行：\n1. cd /Users/<user>/Projects\n2. 检查 /Users/<user>/Projects/pipeline_output/selected_*.json 是否存在（最新一个）\n3. 如果不存在 → 输出 \"⚠️ 无选股文件，跳过 rebalance\" 然后退出\n4. 调用 /Users/<user>/Projects/quant-env/bin/python3 /Users/<user>/Projects/paper_trader/trader.py --rebalance 2>&1\n5. 报告 rebalance 结果：卖出几只、买入几只、当前净值\n\n注意：\n- 这是一个 rebalance 任务，1 分钟内完成\n- 不需要 LLM 决策，直接执行\n- 失败时报告错误并继续\n\n输出格式：简洁的中文 3-5 行总结，包含日期、买入/卖出数量、当前持仓。",
+      "skills": [],
+      "skill": null,
+      "model": "MiniMax-M2.7",
+      "provider": "minimax",
+      "base_url": null,
+      "script": null,
+      "no_agent": false,
+      "context_from": null,
+      "schedule": {
+        "kind": "cron",
+        "expr": "30 15 1 * *",
+        "display": "30 15 1 * *"
+      },
+      "schedule_display": "30 15 1 * *",
+      "repeat": {
+        "times": null,
+        "completed": 0
+      },
+      "enabled": true,
+      "state": "scheduled",
+      "paused_at": null,
+      "paused_reason": null,
+      "created_at": "2026-06-05T17:09:05.981474+08:00",
+      "next_run_at": "2026-07-01T15:30:00+08:00",
+      "last_run_at": null,
+      "last_status": null,
+      "last_error": null,
+      "last_delivery_error": null,
+      "deliver": "origin",
+      "origin": null,
+      "enabled_toolsets": null,
+      "workdir": "/Users/<user>/Projects",
+      "profile": null
+    },
+    {
+      "id": "85a8901828cc",
+      "name": "纸交每日日报 (knowledge-base)",
+      "prompt": "你是 paper_trader 收盘后日报生成任务。\n\n执行：\n1. cd /Users/<user>/Projects/paper_trader\n2. 运行 /Users/<user>/Projects/quant-env/bin/python3 daily_report.py\n3. 脚本会生成 Markdown 日报并写入 /Users/<user>/Projects/<your-knowledge-base>/Agent/quant/dailyRepo/YYYY-MM-DD.md\n4. 在输出末尾追加一行总结：「📅 今日净值 ¥X,XXX.XX，盈亏 +X.XX%，持仓 N 只」\n5. 如果是非交易日（脚本报错或无数据），输出「今日非交易日，跳过日报」\n\n注意：脚本输出会包含完整 Markdown 内容，原样回传即可（用户会看到日报全文）。",
+      "skills": [],
+      "skill": null,
+      "model": "MiniMax-M2.7",
+      "provider": "minimax",
+      "base_url": null,
+      "script": null,
+      "no_agent": false,
+      "context_from": null,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 16 * * 1-5",
+        "display": "0 16 * * 1-5"
+      },
+      "schedule_display": "0 16 * * 1-5",
+      "repeat": {
+        "times": null,
+        "completed": 12
+      },
+      "enabled": true,
+      "state": "scheduled",
+      "paused_at": null,
+      "paused_reason": null,
+      "created_at": "2026-06-06T10:44:07.236850+08:00",
+      "next_run_at": "2026-06-23T16:00:00+08:00",
+      "last_run_at": "2026-06-22T16:00:57.374906+08:00",
+      "last_status": "ok",
+      "last_error": null,
+      "last_delivery_error": null,
+      "deliver": "origin",
+      "origin": null,
+      "enabled_toolsets": null,
+      "workdir": "/Users/<user>/Projects/paper_trader",
+      "profile": null
+    },
+    {
+      "id": "3f0fc75960d1",
+      "name": "cron-failure-summary",
+      "prompt": "placeholder (no_agent=True ignores prompt)",
+      "skills": [],
+      "skill": null,
+      "model": null,
+      "provider": null,
+      "base_url": null,
+      "script": "cron_failure_summary.py",
+      "no_agent": true,
+      "context_from": null,
+      "schedule": {
+        "kind": "cron",
+        "expr": "30 16 * * *",
+        "display": "30 16 * * *"
+      },
+      "schedule_display": "30 16 * * *",
+      "repeat": {
+        "times": null,
+        "completed": 16
+      },
+      "enabled": true,
+      "state": "scheduled",
+      "paused_at": null,
+      "paused_reason": null,
+      "created_at": "2026-06-06T16:23:56.101695+08:00",
+      "next_run_at": "2026-06-23T16:30:00+08:00",
+      "last_run_at": "2026-06-22T16:30:01.376990+08:00",
+      "last_status": "error",
+      "last_error": "Script not found: /Users/<user>/.hermes/profiles/quant/scripts/cron_failure_summary.py",
+      "last_delivery_error": null,
+      "deliver": "origin",
+      "origin": {
+        "platform": "discord",
+        "chat_id": "<discord-chat-id>",
+        "chat_name": "<discord-channel-name>",
+        "thread_id": null
+      },
+      "enabled_toolsets": null,
+      "workdir": null,
+      "profile": "<profile>"
+    },
+    {
+      "id": "740e39513247",
+      "name": "AlphaGPT ETF multi 纸交净值更新",
+      "prompt": "在 /Users/<user>/Projects/AlphaGPT 目录下运行 python3 paper_trader_etf_multi.py，更新 multi ETF 纸交组合净值。不要做其他操作，只运行这个命令。",
+      "skills": [],
+      "skill": null,
+      "model": null,
+      "provider": null,
+      "base_url": null,
+      "script": null,
+      "no_agent": false,
+      "context_from": null,
+      "schedule": {
+        "kind": "cron",
+        "expr": "35 15 * * 1-5",
+        "display": "35 15 * * 1-5"
+      },
+      "schedule_display": "35 15 * * 1-5",
+      "repeat": {
+        "times": null,
+        "completed": 11
+      },
+      "enabled": true,
+      "state": "scheduled",
+      "paused_at": null,
+      "paused_reason": null,
+      "created_at": "2026-06-07T14:46:23.261304+08:00",
+      "next_run_at": "2026-06-23T15:35:00+08:00",
+      "last_run_at": "2026-06-22T15:35:15.160191+08:00",
+      "last_status": "ok",
+      "last_error": null,
+      "last_delivery_error": null,
+      "deliver": "local",
+      "origin": {
+        "platform": "discord",
+        "chat_id": "<discord-chat-id>",
+        "chat_name": "<discord-channel-name>",
+        "thread_id": null
+      },
+      "enabled_toolsets": [
+        "terminal"
+      ],
+      "workdir": "/Users/<user>/Projects/AlphaGPT",
+      "profile": null
+    },
+    {
+      "id": "64813bf42146",
+      "name": "纸交 dashboard 重建 (16:00 报后)",
+      "prompt": "在 /Users/<user>/Projects/paper_trader 目录下运行 /Users/<user>/Projects/quant-env/bin/python build_dashboard.py，生成净值 dashboard PNG 写入 dailyRepo。不要做其他操作。",
+      "skills": [],
+      "skill": null,
+      "model": null,
+      "provider": null,
+      "base_url": null,
+      "script": null,
+      "no_agent": false,
+      "context_from": null,
+      "schedule": {
+        "kind": "cron",
+        "expr": "40 15 * * 1-5",
+        "display": "40 15 * * 1-5"
+      },
+      "schedule_display": "40 15 * * 1-5",
+      "repeat": {
+        "times": null,
+        "completed": 11
+      },
+      "enabled": true,
+      "state": "scheduled",
+      "paused_at": null,
+      "paused_reason": null,
+      "created_at": "2026-06-07T14:46:24.300018+08:00",
+      "next_run_at": "2026-06-23T15:40:00+08:00",
+      "last_run_at": "2026-06-22T15:40:29.812415+08:00",
+      "last_status": "ok",
+      "last_error": null,
+      "last_delivery_error": null,
+      "deliver": "local",
+      "origin": {
+        "platform": "discord",
+        "chat_id": "<discord-chat-id>",
+        "chat_name": "<discord-channel-name>",
+        "thread_id": null
+      },
+      "enabled_toolsets": [
+        "terminal"
+      ],
+      "workdir": "/Users/<user>/Projects/paper_trader",
+      "profile": null
+    },
+    {
+      "id": "528938e4ef19",
+      "name": "quant EOD health check (16:35 watchdog 后)",
+      "prompt": "placeholder (no_agent=True ignores prompt)",
+      "skills": [],
+      "skill": null,
+      "model": null,
+      "provider": null,
+      "base_url": null,
+      "script": "quant_eod_healthcheck.py",
+      "no_agent": true,
+      "context_from": null,
+      "schedule": {
+        "kind": "cron",
+        "expr": "35 16 * * 1-5",
+        "display": "35 16 * * 1-5"
+      },
+      "schedule_display": "35 16 * * 1-5",
+      "repeat": {
+        "times": null,
+        "completed": 10
+      },
+      "enabled": true,
+      "state": "scheduled",
+      "paused_at": null,
+      "paused_reason": null,
+      "created_at": "2026-06-07T14:52:49.863211+08:00",
+      "next_run_at": "2026-06-23T16:35:00+08:00",
+      "last_run_at": "2026-06-22T16:35:02.793053+08:00",
+      "last_status": "error",
+      "last_error": "Script not found: /Users/<user>/.hermes/profiles/quant/scripts/quant_eod_healthcheck.py",
+      "last_delivery_error": null,
+      "deliver": "origin",
+      "origin": {
+        "platform": "discord",
+        "chat_id": "<discord-chat-id>",
+        "chat_name": "<discord-channel-name>",
+        "thread_id": null
+      },
+      "enabled_toolsets": null,
+      "workdir": null,
+      "profile": null
+    },
+    {
+      "id": "bcaa89bf1a56",
+      "name": "quant weekly eval (周日 17:00)",
+      "prompt": "placeholder (no_agent=True ignores prompt)",
+      "skills": [],
+      "skill": null,
+      "model": null,
+      "provider": null,
+      "base_url": null,
+      "script": "quant_weekly_eval.py",
+      "no_agent": true,
+      "context_from": null,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 17 * * 0",
+        "display": "0 17 * * 0"
+      },
+      "schedule_display": "0 17 * * 0",
+      "repeat": {
+        "times": null,
+        "completed": 3
+      },
+      "enabled": true,
+      "state": "scheduled",
+      "paused_at": null,
+      "paused_reason": null,
+      "created_at": "2026-06-07T14:57:37.405572+08:00",
+      "next_run_at": "2026-06-28T17:00:00+08:00",
+      "last_run_at": "2026-06-21T17:32:05.967225+08:00",
+      "last_status": "error",
+      "last_error": "Script not found: /Users/<user>/.hermes/profiles/quant/scripts/quant_weekly_eval.py",
+      "last_delivery_error": "delivery error: Discord send failed: ",
+      "deliver": "origin",
+      "origin": {
+        "platform": "discord",
+        "chat_id": "<discord-chat-id>",
+        "chat_name": "<discord-channel-name>",
+        "thread_id": null
+      },
+      "enabled_toolsets": null,
+      "workdir": null,
+      "profile": null
+    },
+    {
+      "id": "bf77c19b60b1",
+      "name": "早盘前瞻简报 (last30days)",
+      "prompt": "你是 last30days 早盘前瞻简报任务（工作日 9:15 触发，A 股 9:30 开盘前送达 <user>）。\n\n【目标】\n用 last30days skill 检索近 30 天「AI 量化交易 / 机器学习 alpha 因子 / 算法交易」相关内容，整理成 4 段中文早盘前瞻简报，9:30 开盘前必须读完。\n\n【STEP 0 - 自检】\n1. `skill_view(name=\"last30days\")` 通读 SKILL.md 顶部合同（BADGE + 8 LAWs + VOICE CONTRACT）\n2. STEP 0 段：先按 `git -C $SKILL_DIR pull --ff-only 2>&1 | head` 确认 skill 不是 stale clone；失败就继续（不阻塞）\n3. `/opt/homebrew/bin/python3.13 /Users/<user>/.hermes/profiles/quant/skills/research/last30days/scripts/last30days.py --diagnose` 确认可用源\n   - 当前可用：reddit / hackernews / polymarket / github / youtube（yt-dlp 2026.03.17 装于 pipx）\n   - 缺鉴权：X（需 AUTH_TOKEN+CT0 cookie）/ TikTok-IG（需 SCRAPECREATORS_API_KEY）\n\n【STEP 1 - 准备 plan JSON】\n按 SKILL.md \"STEP 1 - QUERY PLAN\" 节构造 4-6 个 subquery JSON。\n必须包含主 query（`required: true`、涵盖全部主源）+ 2-3 个补强 query。\n所有 string 写到 `$TMPFILE=$(mktemp)` heredoc，绝不 inline 防止引号炸。\n\n【STEP 2 - 调 engine（5 分钟超时）前台跑】\n```bash\n/opt/homebrew/bin/python3.13 /Users/<user>/.hermes/profiles/quant/skills/research/last30days/scripts/last30days.py \\\n  \"AI quantitative trading, machine learning alpha factors, algorithmic trading\" \\\n  --quick --days 30 \\\n  --search reddit,hackernews,polymarket,github,youtube \\\n  --emit compact \\\n  --plan \"$TMPFILE\"\n```\n输出会含 6 段（reddit / x / youtube / tiktok / instagram / hn / polymarket / web）。**没有 youtube 段就跳过**，别伪造。\n\n【STEP 3 - 整理成 4 段中文简报】\n1. 🔥 **Reddit + HN 热度** — 抓 3-5 个高赞帖，量化/ML 因子讨论优先\n2. 📦 **GitHub 高 star 新项目** — 抓 3-5 个最近 30 天内涨 star 的 alpha/quant repo，给 star 数 + 一句话定位\n3. 💰 **Polymarket 关键合约** — 与 quant 主题、A 股/美股、AI 相关的预测市场合约（prob% + 简述）\n4. ⚡ **早盘启示** — 3-5 条 actionable 信号：哪些方向/因子/题材值得关注，给出\"可买/可避\"的明确判断\n\n所有引用用 inline markdown link 格式 `[name](url)`（LAW 8）。\n\n【STEP 4 - 投递】\n1. **最终回复** → Discord（cron 自动 deliver=origin 推送到 home channel, chat_id 见 ~/.hermes 配置）\n2. **同时 `write_file` 同一份简报到** `/Users/<user>/Projects/<your-knowledge-base>/Agent/quant/dailyRepo/last30days-YYYY-MM-DD.md`（ISO 日期；dailyRepo 目录已存在）\n3. 第一行必须以 BADGE 开头：`🌐 last30days v3.3.2 · synced {YYYY-MM-DD}`\n4. 最后一行：`Saved → /Users/<user>/Projects/<your-knowledge-base>/Agent/quant/dailyRepo/last30days-YYYY-MM-DD.md`\n\n【自检】\n- BADGE 行在第一行 ✓\n- 4 段中文结构都在 ✓\n- 所有 URL 真实（不编造）✓\n- dailyRepo 文件落盘成功 ✓\n\n如遇 5xx / 网络 / 鉴权失败：优雅退化到只用 reddit+hackernews+polymarket+github 这 4 个免费源，标注\"（YouTube 源暂不可用）\"，不要全失败。",
+      "skills": [
+        "last30days"
+      ],
+      "skill": "last30days",
+      "model": null,
+      "provider": null,
+      "base_url": null,
+      "script": null,
+      "no_agent": false,
+      "context_from": null,
+      "schedule": {
+        "kind": "cron",
+        "expr": "15 9 * * 1-5",
+        "display": "15 9 * * 1-5"
+      },
+      "schedule_display": "15 9 * * 1-5",
+      "repeat": {
+        "times": null,
+        "completed": 12
+      },
+      "enabled": true,
+      "state": "scheduled",
+      "paused_at": null,
+      "paused_reason": null,
+      "created_at": "2026-06-08T11:34:45.775956+08:00",
+      "next_run_at": "2026-06-24T09:15:00+08:00",
+      "last_run_at": "2026-06-23T09:35:20.178047+08:00",
+      "last_status": "ok",
+      "last_error": null,
+      "last_delivery_error": null,
+      "deliver": "origin",
+      "origin": {
+        "platform": "discord",
+        "chat_id": "<discord-chat-id>",
+        "chat_name": "<discord-channel-name>",
+        "thread_id": null
+      },
+      "enabled_toolsets": [
+        "terminal",
+        "file",
+        "web"
+      ],
+      "workdir": "/Users/<user>/.hermes/profiles/quant/skills/research/last30days",
+      "profile": null
+    },
+    {
+      "id": "db271399319e",
+      "name": "last30days watchdog (failure alert)",
+      "prompt": "",
+      "skills": [],
+      "skill": null,
+      "model": null,
+      "provider": null,
+      "base_url": null,
+      "script": "last30days_watchdog.py",
+      "no_agent": true,
+      "context_from": null,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 10-16 * * 1-5",
+        "display": "0 10-16 * * 1-5"
+      },
+      "schedule_display": "0 10-16 * * 1-5",
+      "repeat": {
+        "times": null,
+        "completed": 69
+      },
+      "enabled": true,
+      "state": "scheduled",
+      "paused_at": null,
+      "paused_reason": null,
+      "created_at": "2026-06-08T11:58:21.118053+08:00",
+      "next_run_at": "2026-06-23T14:00:00+08:00",
+      "last_run_at": "2026-06-23T13:00:46.671386+08:00",
+      "last_status": "ok",
+      "last_error": null,
+      "last_delivery_error": null,
+      "deliver": "origin",
+      "origin": {
+        "platform": "discord",
+        "chat_id": "<discord-chat-id>",
+        "chat_name": "<discord-channel-name>",
+        "thread_id": null
+      },
+      "enabled_toolsets": [
+        "terminal"
+      ],
+      "workdir": "/Users/<user>/.hermes/profiles/quant/skills/research/last30days",
+      "profile": null
+    },
+    {
+      "id": "5370e3a938ed",
+      "name": "revenue_tracker_daily",
+      "prompt": "工作日 17:00 跑营收跟踪 pipeline (10 只 CSI300 持仓营收/利润/业绩快报/预告监控).\n\n## 执行步骤\n\n1. **cd 工作目录**:\n   ```bash\n   cd /Users/<user>/Projects/revenue_tracker\n   ```\n\n2. **跑 pipeline** (用 hermes-agent venv 的 python, baostock/akshare 已装):\n   ```bash\n   /Users/<user>/.hermes/hermes-agent/venv/bin/python3 run.py\n   ```\n   预计耗时 100-180s. 缓存命中会更快.\n\n3. **读产出**:\n   - `output/revenue_dashboard_YYYY-MM-DD.md` (主要 dashboard)\n   - `output/revenue_snapshot_YYYY-MM-DD.json` (机器可读快照)\n\n4. **在 final response 中输出** (auto-fan-out 到 Discord + 本地保存):\n   - 一句话摘要: \"📊 今日 10 只跟踪: X 买 / Y 持有 / Z 关注 / W 警示\"\n   - 数据源健康度 (baostock / akshare / tencent 状态)\n   - 完整 dashboard markdown 内容\n\n## 失败处理\n\n- 如果 pipeline 失败 (exit != 0 或 timeout), 在 final response 里说明哪些股失败, 并附上错误日志最后 30 行\n- 如果某只股票 signal 是 \"⚪ 数据不全\", 也要列出\n\n## 不要做\n\n- 不要重试 pipeline (baostock 偶发网络问题可接受, cache 下次会命中)\n- 不要修改 pipeline.py / analyzer.py / baostock_source.py\n- 不要在 prompt 里硬编码具体股票代码 (config.WATCHLIST 是单一来源)\n\n## 触发环境\n\n- 调度: 0 17 * * 1-5 (工作日 17:00, A 股收盘后 30 分钟)\n- 项目: /Users/<user>/Projects/revenue_tracker\n- Python: /Users/<user>/.hermes/hermes-agent/venv/bin/python3\n- 数据源主: baostock (稳定) / 兜底: akshare (东方财富 F10 502 时) / 行情: tencent\n- 缓存: data/revenue_cache.db (12h TTL)\n- 关注池: 10 只 (600030/601318/600519/000858/002938/600276/600926/601012/600887/000333)\n\n## 风格\n\n- 中文, 直接专业\n- 数字格式: 营收用「亿」, 涨跌幅用 %, 比率用 % 保留 1 位小数\n- 表格用 markdown\n- 末尾加一句 \"以上为模型分析, 不构成投资建议\"",
+      "skills": [],
+      "skill": null,
+      "model": null,
+      "provider": null,
+      "base_url": null,
+      "script": null,
+      "no_agent": false,
+      "context_from": null,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 17 * * 1-5",
+        "display": "0 17 * * 1-5"
+      },
+      "schedule_display": "0 17 * * 1-5",
+      "repeat": {
+        "times": null,
+        "completed": 10
+      },
+      "enabled": true,
+      "state": "scheduled",
+      "paused_at": null,
+      "paused_reason": null,
+      "created_at": "2026-06-08T16:58:51.076013+08:00",
+      "next_run_at": "2026-06-23T17:00:00+08:00",
+      "last_run_at": "2026-06-22T17:01:50.000957+08:00",
+      "last_status": "ok",
+      "last_error": null,
+      "last_delivery_error": null,
+      "deliver": "all",
+      "origin": {
+        "platform": "discord",
+        "chat_id": "<discord-chat-id>",
+        "chat_name": "<discord-channel-name>",
+        "thread_id": null
+      },
+      "enabled_toolsets": [
+        "terminal",
+        "file"
+      ],
+      "workdir": "/Users/<user>/Projects/revenue_tracker",
+      "profile": "<profile>"
+    }
+  ],
+  "updated_at": "2026-06-23T13:00:46.671786+08:00"
+}

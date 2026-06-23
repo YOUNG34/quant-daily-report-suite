@@ -1,0 +1,53 @@
+{
+  "_comment": "纸交模拟器持仓文件 — 从 template 复制后,填入真实数据",
+  "_init_guide": "init_date 是首次建仓日期,init_capital 是初始资金(元),holdings 是持仓 dict(可为空启动 cash 模式)",
+
+  "init_date": "<YYYY-MM-DD>",
+  "init_capital": 1000000.0,
+
+  "holdings": {
+    "_example_<code>.<SH|SZ>": {
+      "name": "<股票名,如 招商公路>",
+      "code": "<6位代码,如 001965>",
+      "shares": 100,
+      "cost_price": 10.0,
+      "total_cost": 1000.0,
+      "weight": 0.1,
+      "last_price": 10.0,
+      "market_value": 1000.0,
+      "pnl": 0.0,
+      "pnl_pct": 0.0
+    }
+  },
+
+  "last_nav": 1000000.0,
+  "last_update": "<YYYY-MM-DD HH:MM:SS>",
+  "total_invested": 0.0,
+  "cash_remaining": 1000000.0,
+  "nav_return_pct": 0.0,
+
+  "rebalance_log": [],
+
+  "peak_nav": 1000000.0,
+  "drawdown_pct": 0.0,
+
+  "migration_log": [],
+  "schema_version": 1,
+  "last_rebalance_snapshot": null,
+
+  "total_commission": 0.0,
+  "total_stamp_tax": 0.0,
+  "transaction_log": [],
+
+  "realized_return_pct": 0.0,
+  "accumulated_cost": 0.0,
+
+  "industry_breakdown": {},
+  "exposure_violations": {
+    "single_stock": [],
+    "industry": []
+  },
+
+  "dynamic_stops": {},
+  "atr_stop_alerts": []
+}

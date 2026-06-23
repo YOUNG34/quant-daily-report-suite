@@ -1,0 +1,22 @@
+# A股量化日报自动化套件 — Python 依赖
+#
+# 版本锁原则:核心库锁到 minor(2 位),可选库锁到 major(1 位)
+# 安装方法:python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt
+#
+# 外部系统依赖(macOS 自带,无需 pip):
+#   - curl   (data_source.py 调腾讯 K线 API)
+#   - git    (cron 任务 / 路径解析)
+#   - python 3.13+ (pathlib 现代语法 + 延迟类型注解)
+
+# ── 核心 ─────────────────────────────────────────────
+pandas==2.2.*
+numpy==1.26.*
+matplotlib==3.9.*
+PyYAML==6.0.*
+pydantic==2.9.*
+httpx==0.27.*
+
+# ── 可选:LLM 信号提取 (llm_signal_extractor.py) ────
+# 不安装也能跑 daily_report.py,只是信号源少一个
+akshare==1.16.*
+loguru==0.7.*

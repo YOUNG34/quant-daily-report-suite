@@ -1,0 +1,27 @@
+name: One-off Discord delivery
+on:
+  workflow_dispatch:
+    inputs:
+      message:
+        description: 'Message to send'
+        required: true
+        default: 'test'
+      channel:
+        description: 'Channel ID'
+        required: true
+        default: '1491268226934640800'
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Discord message
+        env:
+          TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+          MSG: ${{ github.event.inputs.message }}
+          CH: ${{ github.event.inputs.channel }}
+        run: |
+          curl -s -X POST \
+            -H "Authorization: Bot $TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "{\"content\": \"$MSG\"}" \
+            "https://discord.com/api/v10/channels/$CH/messages" | head -c 300
